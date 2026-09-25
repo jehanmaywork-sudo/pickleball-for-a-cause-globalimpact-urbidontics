@@ -789,7 +789,44 @@ animation: none;  }
 .pickle-cursor {
   cursor: url('pickleball-cursor.png') 16 16, pointer;
 }
+/* Final GCash desktop sizing */
+.gcash-info {
+  grid-template-columns: 1fr 1.15fr;
+  gap: 50px;
+}
 
+.gcash-left {
+  justify-content: center;
+}
+
+.gcash-right {
+  display: grid;
+  grid-template-columns: 160px 240px;
+  align-items: center;
+  gap: 24px;
+}
+
+.gcash-right .gcash-qr {
+  width: 150px !important;
+  height: 150px !important;
+  max-width: 150px !important;
+  max-height: 150px !important;
+  object-fit: contain !important;
+}
+
+.gcash-confirm {
+  max-width: 240px;
+}
+
+@media (max-width: 860px) {
+  .gcash-info {
+    grid-template-columns: 1fr;
+  }
+
+  .gcash-right {
+    grid-template-columns: 150px 1fr;
+  }
+}
 </style>
 </head>
 <body>
