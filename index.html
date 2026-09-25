@@ -404,7 +404,6 @@ animation: none;  }
   border-bottom: 1px solid var(--line-soft);
 }
 
-  }
   .statbar-inner {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -425,21 +424,28 @@ animation: none;  }
   .stat-value { font-weight: 600; font-size: 17px; letter-spacing: 0.01em; }
   .stat-value.accent { color: var(--accent); }
   .stat-sub { color: var(--muted); font-size: 13.5px; margin-top: 3px; }
-  @media (max-width: 760px) {
-     .statbar-inner { grid-template-columns: 1fr 1fr; }
-   .stat-cell:first-child { border-left: none; padding-left: 0; }
- .stat-cell:nth-child(2n+1) {
-  border-left: none;
-}
-
-.stat-cell:nth-child(n+3) {
-  border-top: 1px solid var(--line-soft);
-}
-    .statbar {
-  margin-top: 18px;
-box-shadow: 0 1px 0 var(--line-soft);
-}
+ @media (max-width: 760px) {
+  .statbar-inner {
+    grid-template-columns: 1fr 1fr;
   }
+
+  .stat-cell {
+    padding: 24px 18px;
+  }
+
+  .stat-cell:nth-child(odd) {
+    border-left: none;
+  }
+
+  .stat-cell:nth-child(n+3) {
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .statbar {
+    margin-top: 18px;
+    box-shadow: 0 1px 0 var(--line-soft);
+  }
+}
 
   /* ---------- Cause section ---------- */
   .slideshow { position: relative; aspect-ratio: 16 / 10; border-radius: 22px; overflow: hidden; border: 1px solid var(--line); background: var(--bg-card); box-shadow: 0 24px 60px -30px rgba(0,0,0,0.6); }
