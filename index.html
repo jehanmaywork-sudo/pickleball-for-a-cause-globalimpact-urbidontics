@@ -661,10 +661,11 @@ animation: none;  }
 
 .gcash-info {
   display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
-  gap: 60px;
-  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
   margin-top: 28px;
+  
 }
   .gcash-left {
   display: flex;
@@ -673,10 +674,10 @@ animation: none;  }
 }
 
 .gcash-right {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
 }
 
 .gcash-num {
@@ -800,17 +801,21 @@ animation: none;  }
   gap: 24px;
 }
 
-.gcash-right .gcash-qr {
-  width: 200px !important;
-  height: 200px !important;
-  max-width: 200px !important;
-  max-height: 200px !important;
-  object-fit: contain !important;
-}
+
 
 .gcash-confirm {
-  max-width: 240px;
+  max-width: 260px;
 }
+
+.gcash-purpose {
+  max-width: 260px;
+}
+
+.gcash-purpose strong {
+  display: block;
+  margin-top: 8px;
+}
+
 
 @media (max-width: 860px) {
   .gcash-info {
@@ -1079,25 +1084,31 @@ animation: none;  }
     </button>
   </div>
 
-  <div class="gcash-right">
-    <img src="gcash-qr.png" alt="GCash QR Code" class="gcash-qr">
-
-    <div class="gcash-confirm">
-      <div class="gcash-confirm-title">After sending</div>
-
-      <div class="gcash-confirm-text">
-        Please send a screenshot of your payment confirmation to Juvy Garcia so your donation can be recorded.
-      </div>
-
-      <a href="https://www.facebook.com/garcia.juvy"
-         target="_blank"
-         rel="noopener"
-         class="donate-confirm-link">
-        Message Juvy on Facebook →
-      </a>
+<div class="gcash-right">
+  <div class="gcash-purpose">
+    <div class="gcash-confirm-title">Playing for a Purpose</div>
+    <div class="gcash-confirm-text">
+      Every game helps support the Davao Smile Dental Mission.<br>
+      <strong>Our goal: ₱160,000</strong>
     </div>
   </div>
 
+  <div class="gcash-confirm">
+    <div class="gcash-confirm-title">After sending</div>
+
+    <div class="gcash-confirm-text">
+      Please send your payment receipt to Juvy Garcia so your donation can be recorded.
+    </div>
+
+    <a href="https://www.facebook.com/garcia.juvy"
+       target="_blank"
+       rel="noopener"
+       class="donate-confirm-link">
+      Message Juvy on Facebook →
+    </a>
+  </div>
+
+</div>
 </div>
    
     </div>
