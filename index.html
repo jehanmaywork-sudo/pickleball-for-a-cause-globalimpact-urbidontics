@@ -666,18 +666,30 @@ animation: none;  }
   flex-wrap: wrap;
 }
 
-.gcash-info > div {
-  margin-right: 4px;
+.gcash-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  margin-top: 24px;
 }
-  .gcash-qr {
- width: 110px;
-  height: 110px;
-  object-fit: contain;
-  flex-shrink: 0;
-  margin: 0;
-  border-radius: 8px;
+  .gcash-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
-  
+
+.gcash-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.gcash-num {
+  font-family: 'Anton', sans-serif;
+  font-size: 27px;
+  letter-spacing: 0.6px;
+}
   .gcash-num { font-family: 'Anton', sans-serif; font-size: 27px; letter-spacing: 0.6px; }
   .gcash-sub { color: var(--muted); font-size: 13.5px; margin-top: 5px; }
   .copy-btn {
