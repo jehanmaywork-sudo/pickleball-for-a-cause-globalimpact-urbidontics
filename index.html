@@ -657,17 +657,16 @@ animation: none;  }
     transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
   }
   .amount-pill.active { border-color: var(--accent); color: var(--accent); background: rgba(212,255,61,0.06); }
-  .gcash-box {
-    background: var(--bg-raised);
-    border-radius: 14px;
-    padding: 24px 26px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    flex-wrap: wrap;
-    border: 1px solid var(--line-soft);
-  }
+}
+  .gcash-qr {
+  display: block;
+  width: 220px;
+  max-width: 100%;
+  height: auto;
+  margin: 24px auto 0;
+  border-radius: 12px;
+}
+  
   .gcash-num { font-family: 'Anton', sans-serif; font-size: 27px; letter-spacing: 0.6px; }
   .gcash-sub { color: var(--muted); font-size: 13.5px; margin-top: 5px; }
   .copy-btn {
@@ -1020,6 +1019,7 @@ animation: none;  }
             <div class="gcash-sub">Analou Joy Pandian · GCash</div>
           </div>
           <button type="button" class="copy-btn" id="copyBtn">Copy number</button>
+          <img src="gcash-qr.png" alt="GCash QR Code" class="gcash-qr">
           
 
  <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
