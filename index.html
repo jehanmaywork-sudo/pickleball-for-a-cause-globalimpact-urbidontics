@@ -8,7 +8,9 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Pickleball for a Cause · Thursday, Oct 1">
 <meta property="og:description" content="Open play, all levels welcome. 6–9 PM at ALP Pickleball Hub. Every donation supports the Davao Smiles Dental Mission.">
-<meta property="og:image" content="og-image.png">
+<meta property="og:image" content="event-poster.png">
+<meta property="og:image:alt" content="Open Play Pickleball for a Cause official event poster">
+<meta name="twitter:image" content="event-poster.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -852,6 +854,45 @@ animation: none;  }
   .share-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(212,255,61,0.04); }
   .share-btn:active { transform: scale(0.97); }
   .share-btn.copied { border-color: var(--accent); color: var(--accent); }
+
+  .invite-poster {
+    margin-top: 20px;
+    width: min(320px, 82vw);
+  }
+  .invite-poster-label {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    margin-bottom: 9px;
+  }
+  .invite-poster-link { display: block; width: 100%; }
+  .invite-poster-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 18px 45px rgba(0,0,0,.28);
+    transition: transform .18s ease, border-color .18s ease;
+  }
+  .invite-poster-link:hover .invite-poster-img {
+    transform: translateY(-2px);
+    border-color: rgba(212,255,61,.42);
+  }
+  .invite-poster-view {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .invite-poster-view:hover { text-decoration: underline; }
+  @media (max-width: 560px) {
+    .invite-poster { width: min(300px, 80vw); }
+  }
   @media (max-width: 560px) {
     .footer-grid { flex-direction: column; align-items: flex-start; }
     .footer-contact { text-align: left; }
@@ -1887,8 +1928,19 @@ animation: none;  }
       <div class="footer-org">Global Impact &amp; Urbidontics<br>Benefiting the Davao Smiles Dental Mission</div>
       <button type="button" class="share-btn" id="shareBtn">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M16 6l-4-4m0 0L8 6m4-4v13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span id="shareBtnText">Share this invite</span>
+        <span id="shareBtnText">Share event link</span>
       </button>
+      <div class="invite-poster">
+        <div class="invite-poster-label">Official event poster</div>
+        <a class="invite-poster-link" href="event-poster.png" target="_blank" rel="noopener" aria-label="View the full Pickleball for a Cause event poster">
+          <img class="invite-poster-img" src="event-poster.png" alt="Open Play Pickleball for a Cause official event poster" loading="lazy">
+        </a>
+        <a class="invite-poster-view" href="event-poster.png" target="_blank" rel="noopener">View full poster ↗</a>
+        <button type="button" class="share-btn" id="sharePosterBtn" style="margin-top:12px; width:100%; justify-content:center;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M16 6l-4-4m0 0L8 6m4-4v13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="sharePosterBtnText">Share poster</span>
+        </button>
+      </div>
     </div>
     <div class="footer-contact">
       Questions about the event?
@@ -1958,7 +2010,7 @@ animation: none;  }
       shareBtnText.textContent = ok ? 'Link copied!' : 'Copy failed';
       shareBtn.classList.toggle('copied', ok);
       setTimeout(function() {
-        shareBtnText.textContent = 'Share this invite';
+        shareBtnText.textContent = 'Share event link';
         shareBtn.classList.remove('copied');
       }, 1800);
     }
@@ -2026,6 +2078,34 @@ animation: none;  }
       }
     }
   });
+
+  // ---------- Share poster ----------
+  var sharePosterBtn = document.getElementById('sharePosterBtn');
+  var sharePosterBtnText = document.getElementById('sharePosterBtnText');
+  if (sharePosterBtn) {
+    sharePosterBtn.addEventListener('click', async function() {
+      try {
+        var response = await fetch('event-poster.png');
+        var blob = await response.blob();
+        var posterFile = new File([blob], 'pickleball-for-a-cause-poster.png', { type: blob.type || 'image/png' });
+        var posterShareData = {
+          title: 'Pickleball for a Cause',
+          text: 'Open Play Pickleball for a Cause — October 1, 6–9 PM at ALP Pickleball Hub.',
+          files: [posterFile]
+        };
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [posterFile] })) {
+          await navigator.share(posterShareData);
+          return;
+        }
+        // Desktop/fallback: open the full poster so it can be saved or shared.
+        window.open('event-poster.png', '_blank', 'noopener');
+        sharePosterBtnText.textContent = 'Poster opened';
+        setTimeout(function() { sharePosterBtnText.textContent = 'Share poster'; }, 1800);
+      } catch (err) {
+        window.open('event-poster.png', '_blank', 'noopener');
+      }
+    });
+  }
 
   // ---------- RSVP form: submits to a Google Apps Script Web App ----------
   // Deploy the paired Code.gs as a Web App (Execute as: Me, Who has access: Anyone)
