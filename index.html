@@ -510,6 +510,35 @@ animation: none;  }
   .stat-card .desc { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
   .stat-card hr { border: none; border-top: 1px solid var(--line-soft); margin: 26px 0; }
 
+  /* ---------- Live RSVP capacity ---------- */
+  .rsvp-capacity {
+    margin: 0 0 24px;
+    padding: 18px 20px;
+    background: rgba(212,255,61,0.055);
+    border: 1px solid rgba(212,255,61,0.18);
+    border-radius: 16px;
+  }
+  .rsvp-capacity-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 11px;
+  }
+  .rsvp-capacity-count { color: var(--white); font-size: 14px; font-weight: 700; }
+  .rsvp-capacity-left { color: var(--accent); font-size: 13px; font-weight: 700; white-space: nowrap; }
+  .rsvp-progress { height: 7px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; }
+  .rsvp-progress-bar { height: 100%; width: 0%; background: var(--accent); border-radius: inherit; transition: width .45s ease; }
+  .rsvp-full { display: none; text-align: center; padding: 8px 2px 2px; }
+  .rsvp-full.show { display: block; }
+  .rsvp-full h3 { color: var(--white); font-size: 21px; margin: 0 0 8px; }
+  .rsvp-full p { color: var(--muted); font-size: 14.5px; line-height: 1.65; margin: 0 0 18px; }
+  .rsvp-donate-btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; background: var(--accent); color: #0a1206; text-decoration: none; font-weight: 700; font-size: 15.5px; padding: 17px 22px; border-radius: 999px; }
+  @media (max-width: 480px) {
+    .rsvp-capacity { padding: 16px; }
+    .rsvp-capacity-top { align-items: flex-start; flex-direction: column; gap: 4px; }
+  }
+
   /* ---------- RSVP section ---------- */
   .rsvp-grid {
     display: grid;
@@ -1475,6 +1504,17 @@ animation: none;  }
 }
 
 </style>
+
+<style>
+.donate-online-card{margin-top:24px;padding:28px 30px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(165deg,var(--bg-card),#0a1310);box-shadow:0 24px 60px -30px rgba(0,0,0,.6)}
+.donate-online-kicker{color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.14em;margin-bottom:9px}
+.donate-online-card h3{font-size:24px;margin:0 0 10px;color:var(--white)}
+.donate-online-card p{color:var(--muted);font-size:15px;line-height:1.7;max-width:760px;margin:0 0 20px}
+.donate-online-card p strong{color:var(--white)}
+.donate-online-btn{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#0a1206;text-decoration:none;font-weight:700;font-size:14.5px;padding:14px 20px;border-radius:999px;transition:transform .18s ease,background .18s ease}
+.donate-online-btn:hover{transform:translateY(-1px);background:#e4ff70}
+@media(max-width:600px){.donate-online-card{padding:24px 22px}.donate-online-card h3{font-size:21px}.donate-online-btn{width:100%;text-align:center;line-height:1.35}}
+</style>
 </head>
 <body>
 
@@ -1710,6 +1750,18 @@ animation: none;  }
       <p class="rsvp-copy">Let us know you're coming so we can plan courts and rotations. Walk-ins are welcome too, but an RSVP helps us keep the evening running smoothly.</p>
     </div>
     <div class="form-card">
+      <div class="rsvp-capacity" id="rsvpCapacity" aria-live="polite">
+        <div class="rsvp-capacity-top">
+          <div class="rsvp-capacity-count" id="rsvpCapacityCount">Checking player spots…</div>
+          <div class="rsvp-capacity-left" id="rsvpCapacityLeft"></div>
+        </div>
+        <div class="rsvp-progress" aria-hidden="true"><div class="rsvp-progress-bar" id="rsvpProgressBar"></div></div>
+      </div>
+      <div class="rsvp-full" id="rsvpFull">
+        <h3>All player spots are reserved!</h3>
+        <p>You can still be part of the cause. Your donation helps support the Davao Smiles Dental Mission.</p>
+        <a class="rsvp-donate-btn" href="#donate">Support the mission →</a>
+      </div>
       <form id="rsvpForm">
         <div class="field">
           <label for="fullName">Full name</label>
@@ -1726,7 +1778,7 @@ animation: none;  }
               <option value="Just Me">Just me</option>
               <option value="+1">+1</option>
               <option value="+2">+2</option>
-              <option value="3 or more">+3 or more</option>
+              <option value="+3">+3</option>
             </select>
           </div>
         </div>
@@ -1791,6 +1843,14 @@ animation: none;  }
   </div>
 </div>
    
+    </div>
+  </div>
+
+    <div class="donate-online-card">
+      <div class="donate-online-kicker">CAN’T PLAY?</div>
+      <h3>You can still make a difference.</h3>
+      <p>Help us reach our <strong>₱170,000 mission goal</strong>. Your donation will help provide food, transportation, dental and educational supplies, and other mission needs for more than <strong>200 patients and guardians</strong>.</p>
+      <a href="https://www.myglobal.org/donate" target="_blank" rel="noopener" class="donate-online-btn">Donate through Global Impact Philippines Foundation →</a>
     </div>
   </div>
 </section>
@@ -1973,12 +2033,64 @@ animation: none;  }
   // headers back on a normal fetch, so we POST with mode: 'no-cors' — we can't read
   // the response, but the request still goes through server-side, so we show our
   // own confirmation once the request resolves.
-  var RSVP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9OrlxFOV_p1imWCgPQcKd7WsQstPq7uJ-M22XbA_5NyP5Q2XBfwA5wzF7Ofe3_bPm/exec'; // e.g. https://script.google.com/macros/s/AKfycb.../exec
+  var RSVP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9OrlxFOV_p1imWCgPQcKd7WsQstPq7uJ-M22XbA_5NyP5Q2XBfwA5wzF7Ofe3_bPm/exec';
 
   var form = document.getElementById('rsvpForm');
   var submitBtn = document.getElementById('rsvpSubmit');
   var successEl = document.getElementById('rsvpSuccess');
   var errorEl = document.getElementById('rsvpError');
+  var capacityCountEl = document.getElementById('rsvpCapacityCount');
+  var capacityLeftEl = document.getElementById('rsvpCapacityLeft');
+  var progressBarEl = document.getElementById('rsvpProgressBar');
+  var fullEl = document.getElementById('rsvpFull');
+  var guestsEl = document.getElementById('guests');
+  var latestRemaining = null;
+
+  function spotsNeeded(value) {
+    if (value === 'Just Me') return 1;
+    var extra = parseInt(String(value).replace('+', ''), 10);
+    return isNaN(extra) ? 1 : 1 + extra;
+  }
+
+  function applyCapacity(data) {
+    if (!data || data.result !== 'success') return;
+    var reserved = Number(data.reserved) || 0;
+    var capacity = Number(data.capacity) || 24;
+    var remaining = Math.max(0, Number(data.remaining) || 0);
+    latestRemaining = remaining;
+
+    capacityCountEl.textContent = reserved + ' of ' + capacity + ' player spots reserved';
+    capacityLeftEl.textContent = remaining === 0 ? 'Full' : remaining + (remaining === 1 ? ' spot remaining' : ' spots remaining');
+    progressBarEl.style.width = Math.min(100, (reserved / capacity) * 100) + '%';
+
+    Array.prototype.forEach.call(guestsEl.options, function(option) {
+      option.disabled = spotsNeeded(option.value) > remaining;
+    });
+
+    if (remaining === 0) {
+      form.style.display = 'none';
+      fullEl.classList.add('show');
+    } else {
+      fullEl.classList.remove('show');
+      if (!successEl.classList.contains('show')) form.style.display = '';
+      if (guestsEl.options[guestsEl.selectedIndex] && guestsEl.options[guestsEl.selectedIndex].disabled) {
+        guestsEl.value = 'Just Me';
+      }
+    }
+  }
+
+  function loadCapacity() {
+    fetch(RSVP_SCRIPT_URL + '?t=' + Date.now(), { cache: 'no-store' })
+      .then(function(response) { return response.json(); })
+      .then(applyCapacity)
+      .catch(function() {
+        capacityCountEl.textContent = '6 of 24 player spots reserved';
+        capacityLeftEl.textContent = '18 spots remaining';
+        progressBarEl.style.width = '25%';
+      });
+  }
+
+  loadCapacity();
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -1986,9 +2098,19 @@ animation: none;  }
 
     var name = document.getElementById('fullName').value.trim();
     var contact = document.getElementById('contact').value.trim();
-    var guests = document.getElementById('guests').value;
+    var guests = guestsEl.value;
+    var needed = spotsNeeded(guests);
 
     if (!name || !contact) return;
+
+    if (latestRemaining !== null && needed > latestRemaining) {
+      errorEl.textContent = latestRemaining === 0
+        ? 'All player spots are reserved, but you can still support the mission below.'
+        : 'Only ' + latestRemaining + ' player spot(s) remain. Please choose a smaller group.';
+      errorEl.classList.add('show');
+      loadCapacity();
+      return;
+    }
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Confirming...';
@@ -2008,9 +2130,11 @@ animation: none;  }
       submitBtn.textContent = 'Confirm my spot';
       form.style.display = 'none';
       successEl.classList.add('show');
+      setTimeout(loadCapacity, 900);
     }).catch(function() {
       submitBtn.disabled = false;
       submitBtn.textContent = 'Confirm my spot';
+      errorEl.textContent = 'Something went wrong sending that — please try again.';
       errorEl.classList.add('show');
     });
   });
